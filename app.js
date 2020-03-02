@@ -31,6 +31,11 @@ passport.use(new LocalStrategy(User.authenticate()));
 passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
 
+app.use(function (req, res, next) {
+    res.locals.currentUser = req.user;
+    next();
+});
+
 app.get("/", function (req, res) {
     res.render("landing");
 });
@@ -155,10 +160,10 @@ app.get("/login", function (req, res) {
 
 //handling login logic
 app.post("/login", passport.authenticate("local",{
-    successRedirect: "campgrounds",
     failureRedirect: "login"
 }),function (req, res) {
-    
+    res.redirect(req.session.returnTo || '/campgrounds');
+    delete req.session.returnTo;
 });
 
 // logout logic
@@ -171,6 +176,7 @@ function isLoggedIn(req, res, next) {
     if(req.isAuthenticated()){
         return next();
     }
+    req.session.returnTo = req.path;
     res.redirect("/login");
 }
 
