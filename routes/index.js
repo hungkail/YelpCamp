@@ -26,7 +26,7 @@ router.post("/register", function (req, res) {
             return res.render("register");
         } else {
             passport.authenticate("local")(req, res, function () {
-                res.redirect("/campgrounds");
+                res.redirect(req.session.returnTo || "/campgrounds");
             });
         }
     });
@@ -56,7 +56,7 @@ function isLoggedIn(req, res, next) {
     if(req.isAuthenticated()){
         return next();
     }
-    req.session.returnTo = req.path;
+    req.session.returnTo = req._parsedOriginalUrl.path;
     res.redirect("/login");
 }
 
