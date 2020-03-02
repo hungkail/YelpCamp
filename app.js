@@ -58,7 +58,7 @@ app.get("/campgrounds/new", function (req, res) {
 app.get("/campgrounds/:id", function (req, res) {
     //find the campground with provided ID
     //render show template with that campground
-    Campground.findById(req.params.id, function (err, foundCampground) {
+    Campground.findById(req.params.id).populate("comments").exec( function (err, foundCampground) {
         if (err) {
             res.send("This will be show page one day!!");
         } else {
