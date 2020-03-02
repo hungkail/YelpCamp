@@ -20,4 +20,16 @@ var campgroundSchema = new mongoose.Schema({
     }]
 });
 
+const Comment = require('./comment');
+campgroundSchema.pre('findOneAndRemove', async function() {
+    let thisCampground = await this.model.findOne({
+        _id: this.getQuery()._id
+    });
+    await Comment.deleteMany({
+        _id: {
+            $in: thisCampground.comments
+        }
+    });
+});
+
 module.exports = mongoose.model("Campground", campgroundSchema);
