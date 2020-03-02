@@ -21,14 +21,17 @@ const seeds = [
 async function seedDB() {
     try {
         await Campground.deleteMany({});
+        console.log("Cleared all campgrounds!!");
         await Comment.deleteMany({});
+        console.log("Cleared all comments!!");
         for (const seed of seeds) {
             let campground = await Campground.create(seed);
+            console.log("Created a campground");
             let comment = await Comment.create({
                 text: seed.name + " is great, but I wish there was internet",
                 author: "Homer"
             });
-            console.log("lalala");
+            console.log("Created a comment");
             campground.comments.push(comment);
             campground.save();
         }
