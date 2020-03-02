@@ -1,5 +1,7 @@
 var mongoose = require("mongoose");
-
+// Make Mongoose use `findOneAndUpdate()`. Note that this option is `true`
+// by default, you need to set it to false.
+mongoose.set('useFindAndModify', false);
 //SCHEMA SETUP
 var campgroundSchema = new mongoose.Schema({
     name: String,
