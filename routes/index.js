@@ -26,7 +26,10 @@ router.post("/register", function (req, res) {
             return res.render("register");
         } else {
             passport.authenticate("local")(req, res, function () {
-                res.redirect(req.session.returnTo || "/campgrounds");
+                var returnTo = req.session.returnTo;
+                delete req.session.returnTo;
+                res.redirect(returnTo || "/campgrounds");
+
             });
         }
     });
@@ -41,8 +44,9 @@ router.get("/login", function (req, res) {
 router.post("/login", passport.authenticate("local",{
     failureRedirect: "login"
 }),function (req, res) {
-    res.redirect(req.session.returnTo || '/campgrounds');
+    var returnTo = req.session.returnTo;
     delete req.session.returnTo;
+    res.redirect(returnTo || '/campgrounds');
 });
 
 // logout route
@@ -56,7 +60,7 @@ function isLoggedIn(req, res, next) {
     if(req.isAuthenticated()){
         return next();
     }
-    req.session.returnTo = req._parsedOriginalUrl.path;
+    req.session.returnTo = req.originalUrl;
     res.redirect("/login");
 }
 
