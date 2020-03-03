@@ -31,6 +31,7 @@ router.post("", middleware.isLoggedIn, function (req, res) {
             console.log(err);
             res.redirect("/campgrounds");
         }else{
+            req.flash("success", "Successfully created a new campground!!!");
             //redirect back to campgrounds page
             res.redirect("/campgrounds/"+newlyCreated._id);
         }
@@ -48,8 +49,10 @@ router.get("/:id", function (req, res) {
     //find the campground with provided ID
     //render show template with that campground
     Campground.findById(req.params.id).populate("comments").exec( function (err, foundCampground) {
-        if (err) {
-            res.send("This will be show page one day!!");
+        // handel mongoDB issue for return null object for valid but not exist id
+        if (err || !foundCampground) {
+            req.flash("error", "Campground not found");
+            res.redirect("/campgrounds");
         } else {
             // render show template with that campground
             res.render("campgrounds/show",{campground: foundCampground});
