@@ -16,9 +16,8 @@ const   campgroundRoutes    = require("./routes/campgrounds"),
         commentRoutes       = require("./routes/comments"),
         indexRoutes         = require("./routes/index");
 // seedDB(); //seed the database
-const url = 'mongodb://127.0.0.1:27017/yelp_camp';
-const port = 3000;
-
+const url = process.env.MONGODB_URI || 'mongodb://127.0.0.1:27017/yelp_camp';
+const port = process.env.PORT || 3000;
 mongoose.connect(url, {useNewUrlParser: true, useUnifiedTopology: true});
 
 
