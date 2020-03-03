@@ -8,7 +8,7 @@ Post their favorite camping place.<br>
 Comment on the campground posts. 
 <br>
 # Build with
-<h3>Front-end</strong>
+<h3>Front-end</h3>
 <ul>
     <li>Bootstrap</li>
 </ul>
