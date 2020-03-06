@@ -1,5 +1,5 @@
 # YelpCamp
-Live Deploy at: https://w-d-b-yelp-camp.herokuapp.com/campgrounds
+Live Deploy at: https://w-d-b-yelp-camp.herokuapp.com/
 <br>
 # Description
 A Yelp-like web app. <br>
